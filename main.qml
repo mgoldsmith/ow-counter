@@ -8,30 +8,40 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
 
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
-
-        Page1 {
-        }
-
-        Page {
-            Label {
-                text: qsTr("Second page")
-                anchors.centerIn: parent
-            }
+    TextInput {
+        id: input
+        y: 100
+        anchors.horizontalCenter: parent.horizontalCenter
+        focus: true
+        onAccepted: {
+            listModel.append({cool: text})
+            clear()
         }
     }
 
-    footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-        TabButton {
-            text: qsTr("First")
+    ListView {
+        anchors.top: input.bottom
+        anchors.horizontalCenter: input.horizontalCenter
+        anchors.topMargin: 10
+
+        height: contentHeight
+        width: contentWidth
+        spacing: 0
+
+        delegate: Text {
+            text: model.cool
         }
-        TabButton {
-            text: qsTr("Second")
+
+        model: ListModel {
+            id: listModel
+            ListElement {
+                hi: "there"
+                cool: "beans"
+            }
+            ListElement {
+                hi: "there"
+                cool: "beans"
+            }
         }
     }
 }
